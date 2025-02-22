@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>CSS三栏布局示例</title>
+		<style>
+			/* 公共样式 */
+			.left,
+			.center,
+			.right {
+				height: 300px;
+			}
+			.left {
+				background: #f1f1f1;
+			}
+			.center {
+				background: #fff;
+			}
+			.right {
+				background: #f1f1f1;
+			}
+
+			/* 1. Flex 布局 */
+			.flex-layout {
+				display: flex;
+				margin-bottom: 20px;
+			}
+			.flex-layout .left {
+				flex: 0 0 200px;
+			}
+			.flex-layout .center {
+				flex: 1;
+			}
+			.flex-layout .right {
+				flex: 0 0 200px;
+			}
+
+			/* 2. Grid 布局 */
+			.grid-layout {
+				display: grid;
+				grid-template-columns: 200px 1fr 200px;
+				margin-bottom: 20px;
+			}
+
+			/* 3. 浮动布局 */
+			.float-layout {
+				margin-bottom: 20px;
+			}
+			.float-layout .left {
+				float: left;
+				width: 200px;
+			}
+			.float-layout .right {
+				float: right;
+				width: 200px;
+			}
+			.float-layout .center {
+				margin: 0 210px;
+			}
+			.float-layout::after {
+				content: '';
+				display: block;
+				clear: both;
+			}
+
+			/* 4. 定位布局 */
+			.position-layout {
+				position: relative;
+				margin-bottom: 20px;
+			}
+			.position-layout .left {
+				position: absolute;
+				left: 0;
+				width: 200px;
+			}
+			.position-layout .right {
+				position: absolute;
+				right: 0;
+				width: 200px;
+			}
+			.position-layout .center {
+				margin: 0 210px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 1. Flex布局 -->
+		<div class="flex-layout">
+			<div class="left">左侧边栏</div>
+			<div class="center">主要内容区域</div>
+			<div class="right">右侧边栏</div>
+		</div>
+
+		<!-- 2. Grid布局 -->
+		<div class="grid-layout">
+			<div class="left">左侧边栏</div>
+			<div class="center">主要内容区域</div>
+			<div class="right">右侧边栏</div>
+		</div>
+
+		<!-- 3. 浮动布局 -->
+		<div class="float-layout">
+			<div class="left">左侧边栏</div>
+			<div class="right">右侧边栏</div>
+			<div class="center">主要内容区域</div>
+		</div>
+
+		<!-- 4. 定位布局 -->
+		<div class="position-layout">
+			<div class="left">左侧边栏</div>
+			<div class="center">主要内容区域</div>
+			<div class="right">右侧边栏</div>
+		</div>
+	</body>
+</html>

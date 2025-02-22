@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>列表点击示例</title>
+    <style>
+        .list-item {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        .list-item:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <ul id="list">
+        <li class="list-item">项目1</li>
+        <li class="list-item">项目2</li>
+        <li class="list-item">项目3</li>
+        <li class="list-item">项目4</li>
+        <li class="list-item">项目5</li>
+    </ul>
+
+    <script>
+        // 方法一：事件委托（推荐）
+        document.getElementById('list').addEventListener('click', (e) => {
+            if (e.target.classList.contains('list-item')) {
+                alert(e.target.textContent);
+            }
+        });
+
+        // 方法二：直接绑定
+        // document.querySelectorAll('.list-item').forEach(item => {
+        //     item.addEventListener('click', function() {
+        //         alert(this.textContent);
+        //     });
+        // });
+    </script>
+</body>
+</html>

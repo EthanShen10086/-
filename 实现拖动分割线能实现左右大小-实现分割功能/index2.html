@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<div id="container" class="splitter-container">
+			<!-- 内容将由 JS 动态创建 -->
+		</div>
+
+		<script src="split.js">
+			// 文件里面内容
+						class Splitter {
+						    constructor(container, options = {}) {
+						        this.container = container;
+						        this.options = {
+						            minSize: options.minSize || 100,
+						            maxSize: options.maxSize || window.innerWidth - 100,
+						            initialSize: options.initialSize || 300,
+						            direction: options.direction || 'horizontal'
+						        };
+
+						        this.isDragging = false;
+						        this.startX = 0;
+						        this.startWidth = 0;
+
+						        this.init();
+						    }
+
+						    init() {
+						        // 创建分割线
+						        this.divider = document.createElement('div');
+						        this.divider.className = 'splitter-divider';
+
+						        // 创建左右面板
+						        this.leftPanel = document.createElement('div');
+						        this.leftPanel.className = 'splitter-panel left';
+						        this.rightPanel = document.createElement('div');
+						        this.rightPanel.className = 'splitter-panel right';
+
+						        // 设置初始宽度
+						        this.leftPanel.style.width = `${this.options.initialSize}px`;
+
+						        // 添加到容器
+						        this.container.appendChild(this.leftPanel);
+						        this.container.appendChild(this.divider);
+						        this.container.appendChild(this.rightPanel);
+
+						        // 绑定事件
+						        this.bindEvents();
+						    }
+
+						    bindEvents() {
+						        // 鼠标按下事件
+						        this.divider.addEventListener('mousedown', (e) => {
+						            this.handleMouseDown(e);
+						        });
+
+						        // 鼠标移动事件
+						        document.addEventListener('mousemove', (e) => {
+						            this.handleMouseMove(e);
+						        });
+
+						        // 鼠标松开事件
+						        document.addEventListener('mouseup', () => {
+						            this.handleMouseUp();
+						        });
+
+						        // 防止拖动超出窗口
+						        document.addEventListener('mouseleave', () => {
+						            this.handleMouseUp();
+						        });
+						    }
+
+						    handleMouseDown(e) {
+						        this.isDragging = true;
+						        this.startX = e.clientX;
+						        this.startWidth = this.leftPanel.offsetWidth;
+
+						        // 添加拖动状态类
+						        document.body.classList.add('splitting');
+
+						        // 阻止文本选择
+						        e.preventDefault();
+						    }
+
+						    handleMouseMove(e) {
+						        if (!this.isDragging) return;
+
+						        // 计算移动距离
+						        const deltaX = e.clientX - this.startX;
+						        const newWidth = this.startWidth + deltaX;
+
+						        // 限制范围
+						        if (newWidth >= this.options.minSize && newWidth <= this.options.maxSize) {
+						            this.leftPanel.style.width = `${newWidth}px`;
+						        }
+						    }
+
+						    handleMouseUp() {
+						        if (!this.isDragging) return;
+
+						        this.isDragging = false;
+						        document.body.classList.remove('splitting');
+						    }
+						}
+		</script>
+		<script>
+			const container = document.getElementById('container');
+			const splitter = new Splitter(container, {
+				minSize: 100,
+				maxSize: 500,
+				initialSize: 300,
+			});
+		</script>
+		<style>
+			.splitter-container {
+				display: flex;
+				width: 100%;
+				height: 100vh;
+			}
+
+			.splitter-panel {
+				height: 100%;
+			}
+
+			.splitter-panel.left {
+				flex: 0 0 auto;
+				background: #f5f5f5;
+				overflow: auto;
+			}
+
+			.splitter-panel.right {
+				flex: 1;
+				background: #fff;
+				overflow: auto;
+			}
+
+			.splitter-divider {
+				width: 6px;
+				background: #e8e8e8;
+				cursor: col-resize;
+				position: relative;
+			}
+
+			.splitter-divider:hover {
+				background: #d0d0d0;
+			}
+
+			.splitting {
+				cursor: col-resize;
+				user-select: none;
+			}
+		</style>
+	</body>
+</html>
