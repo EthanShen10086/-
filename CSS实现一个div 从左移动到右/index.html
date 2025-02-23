@@ -1,0 +1,86 @@
+<!-- 实现一个div 从左移动到右 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			/* 公共样式 */
+			.box {
+				width: 100px;
+				height: 100px;
+				background: #3498db;
+				margin: 20px;
+			}
+
+			/* 1. CSS 动画方式 */
+			.animation-move {
+				position: relative;
+				animation: moveRight 3s linear infinite;
+			}
+
+			@keyframes moveRight {
+				from {
+					left: 0;
+				}
+				to {
+					left: calc(100% - 100px);
+				}
+			}
+
+			/* 2. CSS 过渡方式 */
+			.transition-move {
+				position: relative;
+				left: 0;
+				transition: left 3s linear;
+			}
+			.transition-move:hover {
+				left: calc(100% - 100px);
+			}
+
+			/* 3. transform 方式（性能更好） */
+			.transform-move {
+				transform: translateX(0);
+				animation: moveRightTransform 3s linear infinite;
+			}
+
+			@keyframes moveRightTransform {
+				from {
+					transform: translateX(0);
+				}
+				to {
+					transform: translateX(calc(100vw - 100px));
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<!-- CSS 动画方式 -->
+		<div class="box animation-move"></div>
+
+		<!-- CSS 过渡方式（hover触发） -->
+		<div class="box transition-move"></div>
+
+		<!-- Transform 方式 -->
+		<div class="box transform-move"></div>
+
+		<!-- JavaScript 方式 -->
+		<div class="box" id="js-move"></div>
+
+		<script>
+			// JavaScript 实现方式
+			const box = document.getElementById('js-move');
+			let position = 0;
+			const maxWidth = window.innerWidth - 100;
+
+			function animate() {
+				position += 2;
+				if (position > maxWidth) {
+					position = 0;
+				}
+				box.style.transform = `translateX(${position}px)`;
+				requestAnimationFrame(animate);
+			}
+
+			animate();
+		</script>
+	</body>
+</html>

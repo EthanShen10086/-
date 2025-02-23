@@ -17,3 +17,10 @@ function myNew(constructor, ...args) {
 //   this.age = age;
 // }
 // const person = myNew(Person, "John", 25);
+
+// 和实现原型链一起看
+
+// 1. {}
+// 2. {}.__proto__ = Tree.prototype
+// 3. {}.__proto__.constructor()
+// 4. return instance

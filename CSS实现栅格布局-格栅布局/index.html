@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			/* 基础样式 */
+			.container {
+				width: 100%;
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 0 15px;
+			}
+
+			/* 1. CSS Grid 实现 */
+			.grid-container {
+				display: grid;
+				grid-template-columns: repeat(12, 1fr);
+				gap: 20px;
+			}
+
+			.col-grid-4 {
+				grid-column: span 4;
+			}
+
+			.col-grid-6 {
+				grid-column: span 6;
+			}
+
+			.col-grid-8 {
+				grid-column: span 8;
+			}
+
+			/* 2. Flexbox 实现 */
+			.flex-row {
+				display: flex;
+				flex-wrap: wrap;
+				margin: 0 -15px;
+			}
+
+			.col-flex-4 {
+				flex: 0 0 33.333333%;
+				padding: 0 15px;
+			}
+
+			.col-flex-6 {
+				flex: 0 0 50%;
+				padding: 0 15px;
+			}
+
+			.col-flex-8 {
+				flex: 0 0 66.666667%;
+				padding: 0 15px;
+			}
+
+			/* 3. 浮动实现 */
+			.float-row::after {
+				content: '';
+				display: table;
+				clear: both;
+			}
+
+			.col-float-4 {
+				float: left;
+				width: 33.333333%;
+				padding: 0 15px;
+			}
+
+			.col-float-6 {
+				float: left;
+				width: 50%;
+				padding: 0 15px;
+			}
+
+			/* 响应式断点 */
+			@media (max-width: 768px) {
+				[class*='col-'] {
+					grid-column: 1 / -1;
+					flex: 0 0 100%;
+					width: 100%;
+				}
+			}
+
+			/* 示例样式 */
+			.box {
+				background: #3498db;
+				color: white;
+				padding: 20px;
+				margin-bottom: 20px;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Grid 布局示例 -->
+		<div class="container">
+			<div class="grid-container">
+				<div class="col-grid-4">
+					<div class="box">4列</div>
+				</div>
+				<div class="col-grid-4">
+					<div class="box">4列</div>
+				</div>
+				<div class="col-grid-4">
+					<div class="box">4列</div>
+				</div>
+				<div class="col-grid-6">
+					<div class="box">6列</div>
+				</div>
+				<div class="col-grid-6">
+					<div class="box">6列</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Flexbox 布局示例 -->
+		<div class="container">
+			<div class="flex-row">
+				<div class="col-flex-4">
+					<div class="box">4列</div>
+				</div>
+				<div class="col-flex-4">
+					<div class="box">4列</div>
+				</div>
+				<div class="col-flex-4">
+					<div class="box">4列</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 浮动布局示例 -->
+		<div class="container">
+			<div class="float-row">
+				<div class="col-float-6">
+					<div class="box">6列</div>
+				</div>
+				<div class="col-float-6">
+					<div class="box">6列</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
