@@ -8,3 +8,4 @@ function set(target, key, value, receiver) {
 	queuedObservers.forEach((observer) => observer());
 	return result;
 }
+
