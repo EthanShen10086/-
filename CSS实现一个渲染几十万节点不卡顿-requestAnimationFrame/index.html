@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+	</head>
+	<body>
+		<ul>
+			控件
+		</ul>
+		<script>
+			const total = 100000; // 10万条数据
+			const once = 20; // 每轮插入的数据条目
+			const loopCount = total / once; // 渲染总次数
+			let countOfRender = 0;
+			let ul = document.querySelector('ul');
+			function add() {
+				// 使用文档碎片优化性能
+				const fragment = document.createDocumentFragment();
+				for (let i = 0; i < once; i++) {
+					const li = document.createElement('li');
+					li.innerText = Math.floor(Math.random() * total);
+					fragment.appendChild(li);
+				}
+				ul.appendChild(fragment);
+				countOfRender += 1;
+				loop();
+			}
+			function loop() {
+				if (countOfRender < loopCount) {
+					window.requestAnimationFrame(add); // 使用requestAnimationFrame每隔16ms(浏览器自己选择最佳时间)刷新一次
+				}
+			}
+		</script>
+	</body>
+</html>

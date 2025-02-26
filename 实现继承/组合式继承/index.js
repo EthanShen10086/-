@@ -4,19 +4,18 @@ function Father(name, age) {
 	this.age = age;
 	this.hobby = ['敲代码', '解Bug', '睡觉'];
 }
-// 父类方法放在原型上实现复用
-Father.prototype.sayName = function () {
-	console.log(this.name, 666);
-};
-Father.prototype.x = 1;
+
 //2. 子类
 function Child(name, age) {
 	Father.call(this, name, age); // 调用父类的构造函数 (继承父类的属性)
 	this.a = 1;
 }
+// 设置原型链
 Child.prototype = Object.create(Father.prototype);
+// 修复constructor指向
+Child.prototype.constructor = Father;
 
-// 另一种写法
+//2. 另一种写法
 function Super(foo) {
 	this.foo = foo;
 }

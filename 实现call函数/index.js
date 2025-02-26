@@ -6,6 +6,7 @@
 // 删除绑定的属性
 // 返回结果
 
+// 这里的context其实就是指传入的对象的this指向 所以 context可以理解为this[XXX]
 Function.prototype.myCall = function (context, ...args) {
 	if (typeof this !== 'function') {
 		throw new TypeError('Caller must be a function');

@@ -4,11 +4,11 @@
 // 判断函数的返回值
 // 1. 如果是引用类型，直接返回，比如构造函数主动返回了一个对象：function T(){return {x: 1}}
 // 2. 如果不是引用类型，返回空白对象; 比如构造函数返回一个数字：function T(){return 1}
-
+// 提取第一个arguments元素 如果没有显性得传的时候
 // let constructor = Array.prototype.shift.call(arguments);
-function myNew(constructor, ...args) {
+function myNew(constructor, ...list) {
 	const obj = Object.create(constructor.prototype);
-	const result = constructor.apply(obj, args);
+	const result = constructor.apply(obj, list);
 	return result instanceof Object ? result : obj;
 }
 
@@ -17,10 +17,3 @@ function myNew(constructor, ...args) {
 //   this.age = age;
 // }
 // const person = myNew(Person, "John", 25);
-
-// 和实现原型链一起看
-
-// 1. {}
-// 2. {}.__proto__ = Tree.prototype
-// 3. {}.__proto__.constructor()
-// 4. return instance
