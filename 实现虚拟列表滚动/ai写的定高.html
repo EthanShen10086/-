@@ -1,0 +1,46 @@
+<div id="container" style="height: 500px; overflow-y: auto; position: relative">
+	<div id="spacer"></div>
+	<div id="visibleContainer" style="position: absolute; top: 0"></div>
+</div>
+
+<script>
+	const totalItems = 100000; // 10万条数据
+	const itemHeight = 50; // 每个 item 高度固定
+	const buffer = 3; // 额外缓冲渲染 3 条
+	const container = document.getElementById('container');
+	const visibleContainer = document.getElementById('visibleContainer');
+	const spacer = document.getElementById('spacer');
+
+	// 设置总高度（撑开滚动条）
+	spacer.style.height = totalItems * itemHeight + 'px';
+
+	// 计算可视区域
+	const visibleCount = Math.ceil(container.clientHeight / itemHeight) + buffer;
+	let startIndex = 0;
+
+	// 渲染可视区域
+	function render() {
+		visibleContainer.innerHTML = ''; // 清空旧元素
+		visibleContainer.style.top = startIndex * itemHeight + 'px';
+
+		for (let i = 0; i < visibleCount; i++) {
+			const item = document.createElement('div');
+			item.textContent = `Item ${startIndex + i}`;
+			item.style.height = itemHeight + 'px';
+			item.style.borderBottom = '1px solid #ddd';
+			visibleContainer.appendChild(item);
+		}
+	}
+
+	// 监听滚动，更新 startIndex
+	container.addEventListener('scroll', () => {
+		const newStartIndex = Math.floor(container.scrollTop / itemHeight);
+		if (newStartIndex !== startIndex) {
+			startIndex = newStartIndex;
+			render();
+		}
+	});
+
+	// 初始化渲染
+	render();
+</script>

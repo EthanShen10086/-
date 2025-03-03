@@ -1,0 +1,56 @@
+<div id="container" style="height: 500px; overflow-y: auto; position: relative">
+	<div id="spacer"></div>
+	<div id="visibleContainer" style="position: absolute; top: 0"></div>
+</div>
+
+<script>
+	const totalItems = 10000;
+	const buffer = 5;
+	const heights = new Array(totalItems).fill(50); // 初始假设 50px
+	const offsets = [0];
+
+	const container = document.getElementById('container');
+	const visibleContainer = document.getElementById('visibleContainer');
+	const spacer = document.getElementById('spacer');
+
+	// 计算累积高度（偏移量）
+	for (let i = 1; i < totalItems; i++) {
+		offsets[i] = offsets[i - 1] + heights[i - 1];
+	}
+	spacer.style.height =
+		offsets[totalItems - 1] + heights[totalItems - 1] + 'px';
+
+	// 二分查找可视区域
+	function findStartIndex(scrollTop) {
+		let left = 0,
+			right = totalItems - 1;
+		while (left < right) {
+			let mid = Math.floor((left + right) / 2);
+			if (offsets[mid] < scrollTop) left = mid + 1;
+			else right = mid;
+		}
+		return left;
+	}
+
+	// 渲染可视区域
+	function render() {
+		const scrollTop = container.scrollTop;
+		const startIndex = findStartIndex(scrollTop);
+		const endIndex = startIndex + buffer;
+
+		visibleContainer.innerHTML = '';
+		visibleContainer.style.top = offsets[startIndex] + 'px';
+
+		for (let i = startIndex; i < Math.min(endIndex, totalItems); i++) {
+			const item = document.createElement('div');
+			item.textContent = `Item ${i}`;
+			item.style.height = heights[i] + 'px';
+			item.style.borderBottom = '1px solid #ddd';
+			visibleContainer.appendChild(item);
+		}
+	}
+
+	// 监听滚动
+	container.addEventListener('scroll', render);
+	render();
+</script>
