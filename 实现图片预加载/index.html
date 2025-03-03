@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Preloader</title>
+</head>
+<body>
+    <div id="container"></div>
+
+    <script>
+        // Image preloader class
+        class ImagePreloader {
+            constructor(images) {
+                this.images = Array.isArray(images) ? images : [images];
+                this.loadedImages = [];
+                this.loadedCount = 0;
+            }
+
+            // Load all images
+            preload() {
+                return new Promise((resolve, reject) => {
+                    if (this.images.length === 0) {
+                        resolve([]);
+                        return;
+                    }
+
+                    this.images.forEach(src => {
+                        const img = new Image();
+                        
+                        img.onload = () => {
+                            this.loadedCount++;
+                            this.loadedImages.push(img);
+                            
+                            if (this.loadedCount === this.images.length) {
+                                resolve(this.loadedImages);
+                            }
+                        };
+
+                        img.onerror = () => {
+                            reject(new Error(`Failed to load image: ${src}`));
+                        };
+
+                        img.src = src;
+                    });
+                });
+            }
+        }
+
+        // Example usage
+        const imageUrls = [
+            'https://example.com/image1.jpg',
+            'https://example.com/image2.jpg'
+        ];
+
+        const preloader = new ImagePreloader(imageUrls);
+        
+        preloader.preload()
+            .then(images => {
+                const container = document.getElementById('container');
+                images.forEach(img => container.appendChild(img));
+            })
+            .catch(error => console.error('Error loading images:', error));
+    </script>
+</body>
+</html>

@@ -28,3 +28,9 @@ function Sub(bar) {
 }
 Sub.prototype = Object.create(Super.prototype);
 Sub.prototype.constructor = Sub;
+
+
+// 或者可以使用
+let person = { name: null, age: null };
+let man = Object.assign({}, person, { name: 'John', age: 23 });
+console.log(man);  // => { name: 'John', age: 23 }
