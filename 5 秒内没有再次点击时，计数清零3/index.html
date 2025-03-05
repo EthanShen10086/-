@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div class="container">
+			Counter<span id="counter"> 0 </span>
+			<button id="button">Click</button>
+		</div>
+		<script>
+			const counterContent = document.getElementById('counter');
+			const button = document.getElementById('button');
+			let timer = null;
+			let counter = 0;
+			button.addEventListener('click', () => {
+				if (timer) {
+					clearTimeout(timer);
+				}
+				++counter;
+				counterContent.textContent = counter;
+				timer = setTimeout(() => {
+					counter = 0;
+					counterContent.textContent = counter;
+					timer = null;
+				}, 5 * 1000);
+			});
+		</script>
+	</body>
+</html>
