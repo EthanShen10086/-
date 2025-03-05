@@ -1,48 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <style>
-        .triangle {
-            width: 0;
-            height: 0;
-            /* Create triangle pointing up */
-            border-left: 50px solid transparent;
-            border-right: 50px solid transparent;
-            border-bottom: 100px solid #333;
-        }
-
-        .triangle-down {
-            width: 0;
-            height: 0;
-            /* Create triangle pointing down */
-            border-left: 50px solid transparent;
-            border-right: 50px solid transparent;
-            border-top: 100px solid #333;
-        }
-
-        .triangle-left {
-            width: 0;
-            height: 0;
-            /* Create triangle pointing left */
-            border-top: 50px solid transparent;
-            border-bottom: 50px solid transparent;
-            border-right: 100px solid #333;
-        }
-
-        .triangle-right {
-            width: 0;
-            height: 0;
-            /* Create triangle pointing right */
-            border-top: 50px solid transparent;
-            border-bottom: 50px solid transparent;
-            border-left: 100px solid #333;
-        }
-    </style>
-</head>
-<body>
-    <div class="triangle"></div>
-    <div class="triangle-down"></div>
-    <div class="triangle-left"></div>
-    <div class="triangle-right"></div>
-</body>
+	<head>
+		<style>
+			.triangle::after {
+				display: inline-block;
+				content: '';
+				/* 伪元素多出来的部分 */
+				/* 如果它们有值，元素的内容区域就会扩大，导致边框被拉伸，可能不会形成预期的三角形形状。 */
+				width: 0;
+				height: 0;
+				border-left: 4px solid transparent;
+				border-right: 4px solid transparent;
+				border-top: 8px solid #333;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="triangle"></div>
+	</body>
 </html>

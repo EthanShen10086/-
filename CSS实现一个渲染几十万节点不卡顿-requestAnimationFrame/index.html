@@ -5,28 +5,29 @@
 			控件
 		</ul>
 		<script>
-			const total = 100000; // 10万条数据
-			const once = 20; // 每轮插入的数据条目
-			const loopCount = total / once; // 渲染总次数
-			let countOfRender = 0;
+			const total = 1000000;
+			const pageSize = 20;
+			const loopCount = total / pageSize;
+			let count = 0;
 			let ul = document.querySelector('ul');
 			function add() {
-				// 使用文档碎片优化性能
 				const fragment = document.createDocumentFragment();
-				for (let i = 0; i < once; i++) {
+				for (let i = 0; i < loopCount; i++) {
 					const li = document.createElement('li');
-					li.innerText = Math.floor(Math.random() * total);
+					li.textContent = i;
 					fragment.appendChild(li);
+					// li和div都可以使用textContent
+					// const div = document.createElement('div');
+					// div.textContent = i;
+					// fragment.appendChild(div);
 				}
 				ul.appendChild(fragment);
-				countOfRender += 1;
-				loop();
-			}
-			function loop() {
-				if (countOfRender < loopCount) {
-					window.requestAnimationFrame(add); // 使用requestAnimationFrame每隔16ms(浏览器自己选择最佳时间)刷新一次
+				count++;
+				if (count < loopCount) {
+					requestAnimationFrame(add);
 				}
 			}
+			requestAnimationFrame(add);
 		</script>
 	</body>
 </html>
