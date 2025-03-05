@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div class="container">
+			<div id="box">box</div>
+		</div>
+		<script>
+			const displayContent = document.getElementById('box');
+			let position = 0;
+			const maxWidth = window.innerWidth - 100;
+
+			function animation() {
+				position += 2;
+				if (position > maxWidth) {
+					position = 0;
+				}
+				displayContent.style.transform = `translateX(${position}px)`;
+				// 传入callback
+				requestAnimationFrame(animation);
+			}
+			animation();
+		</script>
+	</body>
+</html>
