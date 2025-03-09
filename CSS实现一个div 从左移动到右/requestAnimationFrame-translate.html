@@ -6,19 +6,17 @@
 		</div>
 		<script>
 			const displayContent = document.getElementById('box');
+			const maxWidth = window.innnerWidth - 100;
 			let position = 0;
-			const maxWidth = window.innerWidth - 100;
-
-			function animation() {
+			function move() {
 				position += 2;
 				if (position > maxWidth) {
 					position = 0;
 				}
 				displayContent.style.transform = `translateX(${position}px)`;
-				// 传入callback
-				requestAnimationFrame(animation);
+				requestAnimationFrame(move);
 			}
-			animation();
+			move();
 		</script>
 	</body>
 </html>

@@ -2,18 +2,17 @@
 <html>
 	<head>
 		<style>
-			.triangle::after {
-				display: inline-block;
-				content: '';
-				/* 伪元素多出来的部分 */
-				/* 如果它们有值，元素的内容区域就会扩大，导致边框被拉伸，可能不会形成预期的三角形形状。 */
-				width: 0;
-				height: 0;
-				border-left: 4px solid transparent;
-				border-right: 4px solid transparent;
-				border-top: 8px solid #333;
-			}
-		</style>
+		.triangle::after{
+			display: inline-block;
+			content: '';
+			width: 0;
+			height: 0;
+			border-left: 4px solid transparent;
+			border-right: 4px solid transparent;
+			border-bottom: 8px solid #000;
+			
+		}
+					</style>
 	</head>
 	<body>
 		<div class="triangle"></div>

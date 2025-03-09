@@ -6,42 +6,38 @@
 		</div>
 		<style>
 			.container {
-				width: 100%;
-				height: 100%;
+				width: 100vw;
+				height: 100vh;
 				position: relative;
 			}
 			#target {
 				width: 100px;
 				height: 100px;
-				background-color: red;
 				position: absolute;
 				left: 0;
 				top: 0;
 			}
 		</style>
 		<script>
-			function flipMove() {
-				// F 记录初始位置
-				const target = document.getElementById('target');
-				const first = target.getBoundingClientRect();
-				target.style.transition = `all 10s ease`;
+			// F 获取初始位置
+			const target = document.getElementById('target');
+			target.style.transition = `left 1s linear`;
+			const first = target.getBoundingClientRect();
 
-				//L  记录终点
-				target.style.left = '400px';
-				target.style.top = '0px';
-				const last = target.getBoundingClientRect();
+			// L 获取结束位置
+			target.style.left = '400px';
+			target.style.top = '0px';
+			const last = target.getBoundingClientRect();
 
-				//I 计算变化
-				const deltaX = first.left - last.left;
-				const deltaY = first.top - last.top;
+			// I
+			const dx = first.left - last.left;
+			const dy = first.top - last.top;
 
-				//P 应用变化
-				target.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-				requestAnimationFrame(() => {
-					target.style.transform = 'none';
-				});
-			}
-			flipMove();
+			// P
+			target.style.transform = `translate(${dx}px, ${dy}px)`;
+			requestAnimationFrame = () => {
+				target.style.transform = 'none';
+			};
 		</script>
 	</body>
 </html>

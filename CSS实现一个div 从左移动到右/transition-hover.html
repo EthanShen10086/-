@@ -5,16 +5,12 @@
 			<div class="box">Box</div>
 		</div>
 		<style>
-			.box {
-				width: 100px;
-				height: 100px;
-				position: relative;
-				left: 0;
-				transition: left 10s linear;
-			}
-			/* 如果不悬浮就往回滚动的 */
-			.box:hover {
-				left: calc(100% - 100px);
+		.box{
+			position: relative;
+			transition: 1s left linear;
+		}
+		.box:hover{
+	left: calc(100% -100px)
 			}
 		</style>
 	</body>

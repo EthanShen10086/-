@@ -6,22 +6,24 @@
 			<button id="button">Click</button>
 		</div>
 		<script>
-			const counterContent = document.getElementById('counter');
-			const button = document.getElementById('button');
-			let timer = null;
-			let counter = 0;
-			button.addEventListener('click', () => {
-				if (timer) {
-					clearTimeout(timer);
-				}
-				++counter;
-				counterContent.textContent = counter;
-				timer = setTimeout(() => {
-					counter = 0;
-					counterContent.textContent = counter;
-					timer = null;
-				}, 5 * 1000);
-			});
+		const displayContent =  document.getElementById('counter')
+		const button = document.getElementById('button')
+		let timer = null
+		let counter = 0
+		button.addEventListner('click', () => {
+			if(timer){
+				clearTimeout(timer)
+			}
+			counter++
+			displayContent.textContent = counter
+
+			timer = setTimeout(
+			() => {
+			counter = 0
+				displayContent.textContent = counter
+							timer = null
+			}, 5* 1000)
+		})
 		</script>
 	</body>
 </html>

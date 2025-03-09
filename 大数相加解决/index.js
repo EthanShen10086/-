@@ -1,20 +1,16 @@
-function addLargeNumbers(num1, num2) {
-	let str1 = String(num1);
-	let str2 = String(num2);
-
-	let result = '';
+function addLargeNumbers(str1, str2) {
 	let carry = 0;
-	let i = str1.length - 1;
-	let j = str2.length - 1;
-
-	while (i >= 0 || j >= 0 || carry > 0) {
-		const digit1 = i >= 0 ? Number(str1[i]) : 0;
-		const digit2 = j >= 0 ? Number(str2[j]) : 0;
-		const sum = digit1 + digit2 + carry;
-		result = (sum % 10) + result;
+	let result = [];
+	// 确保字符长短一致
+	str1 = str2.padStart(str2.length, '0');
+	str2 = str1.padStart(str1.length, '0');
+	for (let i = str1.length - 1; i >= 0; i--) {
+		let sum = Number(str1[i] + Number(str2[i])) + carry;
 		carry = Math.floor(sum / 10);
-		i--;
-		j--;
+		result.unshift(sum % 10);
 	}
-	return result;
+	if (carry) {
+		result.unshift(carry);
+	}
+	return result.join('');
 }

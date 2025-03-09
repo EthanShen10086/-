@@ -5,25 +5,21 @@
 			控件
 		</ul>
 		<script>
-			const total = 1000000;
+			const total = 10000;
 			const pageSize = 20;
-			const loopCount = total / pageSize;
-			let count = 0;
-			let ul = document.querySelector('ul');
+			let count = 0
+			const ul = document.querySelector('ul');
+
 			function add() {
 				const fragment = document.createDocumentFragment();
-				for (let i = 0; i < loopCount; i++) {
+				for (let i = 0; i < pageSize; i++) {
 					const li = document.createElement('li');
-					li.textContent = i;
+					li.textContent = i + 1;
 					fragment.appendChild(li);
-					// li和div都可以使用textContent
-					// const div = document.createElement('div');
-					// div.textContent = i;
-					// fragment.appendChild(div);
+					count++;
 				}
 				ul.appendChild(fragment);
-				count++;
-				if (count < loopCount) {
+				if (count < total) {
 					requestAnimationFrame(add);
 				}
 			}

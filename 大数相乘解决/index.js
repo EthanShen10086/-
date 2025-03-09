@@ -1,20 +1,25 @@
-function multiplyLargeNumbers(num1, num2) {
-	const n1 = num1.split('').reverse();
-	const n2 = num2.split('').reverse();
-	const result = new Array(n1.length + n2.length).fill(0);
-	for (let i = 0; i < n1.length; i++) {
-		for (let j = 0; j < n2.length; j++) {
-			result[i + j] += parseInt(n1[i]) * parseInt(n2[j]);
+function bigNumberMultiply(str1, str2) {
+	const str1Length = str1.length;
+	const str2Length = str2.length;
+	const result = Array.from(
+		{
+			length: str1Length + str2Length,
+		},
+		() => 0
+	);
+	for (let i = str1Length - 1; i >= 0; i--) {
+		for (let j = str2Length - 1; j >= 0; j--) {
+			let mul = Number(str1[i]) * Number(str2[j]);
+			let sum = mul + result[i + j + 1];
+			// 存个位
+			result[i + j + 1] = sum % 10;
+			// 进位存到后一位 最后要去掉的
+			result[i + j] += Math.floor(sum / 10);
 		}
 	}
-	for (let i = 0; i < result.length - 1; i++) {
-		if (result[i] >= 10) {
-			result[i + 1] += Math.floor(result[i] / 10);
-			result[i] = result[i] % 10;
-		}
+	// for循环是逆着来的 所以其实是从前往后存的 所以要去掉前面的0
+	while (result.length > 1 && result[0] === 0) {
+		result.shift();
 	}
-	while (result.length > 1 && result[result.length - 1] === 0) {
-		result.pop();
-	}
-	return result.reverse().join('');
+	return result.join('');
 }

@@ -1,10 +1,14 @@
-// 这里ctor就是constructor
 function myInstanceOf(obj, ctor) {
-	// 获取对象原型
+	if (obj === null || (typeof obj !== 'object' && typeof obj !== 'function')) {
+		return false;
+	}
+	if (typeof ctor !== 'function') {
+		throw new TypeError('必须是function');
+	}
+	// 获取对象proto
+	// 获取构造函数prototype
 	let proto = Object.getPrototypeOf(obj);
-	// 获取构造函数的prototype对象
 	let prototype = ctor.prototype;
-	// 判断构造函数的prototype对象是否在对象原型链上
 	while (true) {
 		if (!proto) {
 			return false;

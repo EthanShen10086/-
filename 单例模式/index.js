@@ -1,10 +1,11 @@
-function getSingleInstance(func) {
-	let instance;
-	let handler = {
+function single(className) {
+	let ins;
+	return new Proxy(className, {
 		construct(target, args) {
-			if (!instance) instance = Reflect.construct(func, args);
-			return instance;
+			if (!ins) {
+				ins = new target(...args);
+			}
+			return ins;
 		},
-	};
-	return new Proxy(func, handler);
+	});
 }
