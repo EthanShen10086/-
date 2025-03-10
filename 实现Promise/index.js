@@ -1,35 +1,37 @@
 const PENDING = 'pending';
-const RESOLVED = 'resolved';
-const REJECTED = 'rejected';
+const RESOLVE = 'resolve';
+const REJECT = 'rejected';
 
 function MyPromise(fn) {
 	const self = this;
 	this.state = PENDING;
 	this.value = null;
 	this.reason = null;
-	this.resolvedCallbacks = [];
-	this.rejectedCallbacks = [];
-
+	this.resolveCallbackList = [];
+	this.rejectCallbackList = [];
 	function resolve(value) {
 		if (value instanceof MyPromise) {
 			value.then(resolve, reject);
 		}
-		// 保证代码执行顺序为本轮事件循环的末尾
+		// 确保代码执行顺序为本轮事件循环末尾
 		setTimeout(() => {
 			if (self.state === PENDING) {
-				self.state = RESOLVED;
+				self.state = RESOLVE;
 				self.value = value;
-				self.resolvedCallbacks.forEach((cb) => cb(value));
+				self.rejectCallbackList.forEach((cb) => {
+					cb(value);
+				});
 			}
 		}, 0);
 	}
-
 	function reject(reason) {
 		setTimeout(() => {
 			if (self.state === PENDING) {
-				self.state = REJECTED;
+				self.state = REJECT;
 				self.reason = reason;
-				self.rejectedCallbacks.forEach((cb) => cb(reason));
+				self.resolveCallbackList.forEach((cb) => {
+					cb(reason);
+				});
 			}
 		}, 0);
 	}
@@ -39,8 +41,7 @@ function MyPromise(fn) {
 		reject(e);
 	}
 }
-
-MyPromise.prototype.then = function (onFulfilled, onReject) {
+MyPromise.then = function (onFulfilled, onReject) {
 	const self = this;
 	return new MyPromise((resolve, reject) => {
 		let fulfilled = () => {
@@ -63,43 +64,67 @@ MyPromise.prototype.then = function (onFulfilled, onReject) {
 				reject(e);
 			}
 		};
+
 		switch (self.state) {
 			case PENDING:
-			case RESOLVED:
-			case RESOLVED:
+			case RESOLVE:
+			case REJECT:
 		}
 	});
 };
-
-MyPromise.all = (promises) => {
-	return new MyPromise((resolve, reject) => {
-		if (!Array.isArray(promises)) {
-			throw new TypeError('arguments must be array');
-		}
-		let resolvedCounter = 0;
-		let promiseNum = promises.length;
-		let resolvedResult = [];
-
-		for (let i = 0; i < promises.length; i++) {
-			MyPromise.resolve(promises[i]).then(
-				(value) => {
-					resolvedCounter++;
-					resolvedResult[i] = value;
-					if (resolvedCounter === promiseNum) {
-						return resolve(resolvedResult);
-					}
-				},
-				(error) => {
-					return reject(error);
-				}
-			);
-		}
-	});
-};
-MyPromise.race = function (args) {
+MyPromise.all = function (promiseList) {
 	return new Promise((resolve, reject) => {
-		for (let i = 0; (len = args.length); i++) {
-			args[i].then(resolve, reject);
+		if (!Array.isArray(promiseList)) {
+			throw new Error('必须是可遍历的');
 		}
+		const result = [];
+		let count = 0;
+		let total = promiseList.length;
+		if (total === 0) {
+			resolve([]);
+			return;
+		}
+		promiseList.forEach((promise, index) => {
+			Promise.resolve(promise)
+				.then((value) => {
+					result[index] = value;
+					count++;
+					if (count === total) {
+						resolve(result);
+					}
+				})
+				.catch((error) => {
+					reject(error);
+				});
+		});
 	});
+};
+
+MyPromise.race = function (promiseList) {
+	return new MyPromise((resolve, reject) => {
+		promiseList.forEach((promise) => {
+			Promise.resolve(promise).then(resolve, reject);
+		});
+	});
+};
+
+MyPromise.raceWithRetry = function (promiseFn, timeout = 3000, retry = 3) {
+	// 创建超时 Promise
+	const timeoutPromise = new Promise((_, reject) => {
+		setTimeout(() => reject(new Error('timeout'), timeout));
+	});
+	// 创建重试函数
+	const attemptWithTimeout = async (attemptCount) => {
+		try {
+			const result = await Promise.race([promiseFn(), timeoutPromise]);
+			return result;
+		} catch (error) {
+			if (error.message === 'timeout' && attemptCount < retry) {
+				console.log(`第${attemptCount + 1}次超时`);
+				return attemptWithTimeout(attemptCount + 1);
+			}
+			throw error;
+		}
+	};
+	return attemptWithTimeout(0);
 };

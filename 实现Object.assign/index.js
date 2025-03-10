@@ -1,14 +1,16 @@
 function objectAssign(target, ...sourceList) {
 	if (target === null || target === undefined) {
-		throw new TypeError('必须非null undefined');
+		throw new Error('不得为空');
 	}
-	const to = Object(target);
-	sourceList.forEach((item) => {
-		if (item != null) {
-			for (let key of Object.keys(item)) {
-				to[key] = item[key];
+	const result = Object(target);
+	sourceList.forEach((obj) => {
+		if (obj !== null) {
+			for (let key in obj) {
+				if (obj.getOwnProperty(key)) {
+					result[key] = obj[key];
+				}
 			}
 		}
 	});
-	return to;
+	return result;
 }
