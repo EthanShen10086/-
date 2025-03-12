@@ -110,7 +110,7 @@ MyPromise.race = function (promiseList) {
 
 MyPromise.raceWithRetry = function (promiseFn, timeout = 3000, retry = 3) {
 	// 创建超时 Promise
-	const timeoutPromise = new Promise((_, reject) => {
+	const timeoutPromise = new MyPromise((_, reject) => {
 		setTimeout(() => reject(new Error('timeout'), timeout));
 	});
 	// 创建重试函数

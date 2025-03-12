@@ -1,34 +1,41 @@
-<!-- 不改变dom结构的情况下怎么实现一张图片的水中倒影（就是一张图加上它的水中倒影同时出现在页面但是不能用dom增加元素） -->
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>水中倒影</title>
 		<style>
 			.container {
-				margin: 50px;
+				width: 100vw;
+				height: 100vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 			}
 
-			/* 兼容性方案 */
-			.reflection-fallback {
+			.reflection {
 				width: 300px;
 				height: 200px;
+				display: block;
 				position: relative;
 			}
 
-			.reflection-fallback::after {
+			.reflection::after {
 				content: '';
 				position: absolute;
 				left: 0;
-				bottom: -100%;
+				top: 100%; /* 让倒影紧贴图片 */
 				width: 100%;
 				height: 100%;
-				background: inherit;
+				background: inherit; /* 继承原图 */
 				background-size: cover;
-				transform: scaleY(-1);
-				opacity: 0.5;
-				mask-image: linear-gradient(to bottom, transparent 0%, black 100%);
+				background-position: center;
+				transform: scaleY(-1); /* 垂直翻转 */
+				opacity: 0.5; /* 透明度降低 */
+				mask-image: linear-gradient(to bottom, transparent 20%, black 100%);
 				-webkit-mask-image: linear-gradient(
 					to bottom,
-					transparent 0%,
+					transparent 20%,
 					black 100%
 				);
 			}
@@ -36,8 +43,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<!-- 使用伪元素方案（兼容性更好） -->
-			<img src="your-image.jpg" class="reflection-fallback" />
+			<img src="./公积金.jpg" class="reflection" />
 		</div>
 	</body>
 </html>

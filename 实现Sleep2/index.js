@@ -1,13 +1,8 @@
-async function test() {
-	console.log('start');
-	await sleep(3000);
-	console.log('3s has passed');
-}
-
-function sleep(ms) {
+function sleep(s) {
 	return new Promise((resolve, reject) => {
 		setTimeout(() => {
+			console.log(`sleep ${s}s`);
 			resolve();
-		}, ms);
+		}, s * 1000);
 	});
 }

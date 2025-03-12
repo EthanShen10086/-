@@ -1,10 +1,10 @@
-function getType(value) {
-	if (value === null) {
-		return value + '';
+function getType(obj) {
+	if (obj === null) {
+		return obj + '';
 	}
-	if (typeof value === 'object') {
-		return Object.prototype.toString.call(value).slice(8, -1).toLowerCase();
+	if (typeof obj === 'object') {
+		return String.prototype.toString.call(obj).slice(8, -1).toLowerCase();
 	} else {
-		return typeof value;
+		return typeof obj;
 	}
 }

@@ -1,58 +1,28 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>双向绑定示例</title>
-	</head>
 	<body>
-		<!-- 方式一：使用 Proxy -->
-		<input type="text" id="input1" />
+		<input type="text" id="proxy" />
 
-		<!-- 方式二：使用 Object.defineProperty -->
-		<input type="text" id="input2" />
-
+		<style></style>
 		<script>
-			// 方式一：使用 Proxy 实现
-			const input1 = document.getElementById('input1');
-			const data1 = new Proxy(
+			const input = document.getElementById('proxy');
+			const data = new Proxy(
 				{
 					text: '',
 				},
 				{
 					set(target, key, value) {
 						target[key] = value;
-						input1.value = value;
+						input.value = value;
 						return true;
 					},
 				}
 			);
-
-			// 监听输入
-			input1.addEventListener('input', (e) => {
-				data1.text = e.target.value;
+			input.addEventListener('input', (e) => {
+				data.text = e.target.value;
 			});
-
-			// 方式二：使用 Object.defineProperty 实现
-			const input2 = document.getElementById('input2');
-			const data2 = {};
-
-			Object.defineProperty(data2, 'text', {
-				get() {
-					return input2.value;
-				},
-				set(value) {
-					input2.value = value;
-				},
-			});
-
-			// 监听输入
-			input2.addEventListener('input', (e) => {
-				data2.text = e.target.value;
-			});
-
-			// 测试：修改对象属性
 			setTimeout(() => {
-				data1.text = 'Hello Proxy!';
-				data2.text = 'Hello defineProperty!';
+				data.text = 'HelloWorld';
 			}, 2000);
 		</script>
 	</body>

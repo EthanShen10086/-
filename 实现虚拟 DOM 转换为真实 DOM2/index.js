@@ -89,3 +89,19 @@ const complexVdom = {
 
 const realDOM = vdomToReal(complexVdom);
 document.body.appendChild(realDOM);
+
+function selectSort(list) {
+	for (let i = 0; i < list.length; i++) {
+		let minIndex = i;
+		for (let j = i + 1; j < list.length; j++) {
+			if (list[j] < list[minIndex]) {
+				minIndex = j;
+			}
+		}
+		if (i !== minIndex) {
+			let temp = list[i];
+			list[i] = list[minIndex];
+			list[minIndex] = temp;
+		}
+	}
+}

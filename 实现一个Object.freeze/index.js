@@ -1,9 +1,18 @@
 function myFreeze(obj) {
+	if (typeof obj !== 'object' || obj === null) {
+		return obj;
+	}
 	const keyList = Object.keys(obj);
 	keyList.forEach((key) => {
-		if (typeof obj[key] === 'object') {
+		Object.defineProperty(obj, key, {
+			// 不能删除
+			configurable: false,
+			// 不能修改
+			writable: false,
+		});
+		if (typeof obj[key] === 'object' && obj[key] !== null) {
 			myFreeze(obj[key]);
 		}
 	});
-	return Object.freeze(obj);
+	return obj;
 }
