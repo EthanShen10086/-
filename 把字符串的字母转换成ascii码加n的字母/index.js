@@ -1,22 +1,23 @@
 // 把字符串的字母转换成ascii码加n的字母
 // 输入: 'ABC', 1
 // 输出: 'BCD'
+
+const ASCII_A = 65;
+const ASCII_Z = 90;
+const ASCII_a = 97;
+const ASCII_z = 122;
+
 function asciiAdd(str, n) {
-	let res = '';
+	let result = '';
+	n = n % 26;
 	for (let i = 0; i < str.length; i++) {
 		let code = str.charCodeAt(i);
-		if (code >= 65 && code <= 90) {
-			code += n;
-			if (code > 90) {
-				code -= 26;
-			}
-		} else if (code >= 97 && code <= 122) {
-			code += n;
-			if (code > 122) {
-				code -= 26;
-			}
+		if (code >= ASCII_A && code <= ASCII_Z) {
+			code = ((code - ASCII_A + n + 26) % 26) + ASCII_A;
+		} else if (code >= ASCII_a && code <= ASCII_z) {
+			code = ((code - ASCII_a + n + 26) % 26) + ASCII_a;
 		}
-		res += String.fromCharCode(code);
+		result += String.fromCharCode(code);
 	}
-	return res;
+	return result;
 }

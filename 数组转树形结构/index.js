@@ -1,5 +1,10 @@
 function arrayToTree(list, root) {
 	return list
-		.filter((item) => item.parent_id === root)
-		.map((item) => ({ ...item, children: arrayToTree(list, item.id) }));
+		.filter((item) => item.parentId === root)
+		.map((item) => {
+			return {
+				...item,
+				children: arrayToTree(list, item.id),
+			};
+		});
 }

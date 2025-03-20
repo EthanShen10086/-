@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<ul>
+			<li>douyin</li>
+			<li>toutiao</li>
+		</ul>
+		<style></style>
+		<script>
+			function Element({ tagName, props, children }) {
+				// 确保不使用new也能正确创建实例
+				if (!(this instanceof Element)) {
+					return new Element({ tagName, props, children });
+				}
+				this.tagName = tagName;
+				this.props = props || {};
+				this.children = children || [];
+			}
+			Element.prototype.render = function () {
+				const el = document.createElement(this.tagName);
+				for (let propName in this.props) {
+					el.setAttribute(propName, this.props[propName]);
+				}
+				this.children.forEach((child) => {
+					let childElement = null;
+					if (child instanceof Element) {
+						childElement = child.render();
+					} else {
+						childElement = document.createTextNode(child);
+					}
+					el.appendChild(childElement);
+				});
+				return el;
+			};
+			let virtualDOM = new Element({
+				tagName: 'ul',
+				props: { class: 'list' },
+				children: [
+					new Element({
+						tagName: 'li',
+						children: ['douyin'],
+					}),
+					new Element({
+						tagName: 'li',
+						children: ['toutiao'],
+					}),
+				],
+			});
+			document.body.appendChild(virtualDOM.render());
+		</script>
+	</body>
+</html>

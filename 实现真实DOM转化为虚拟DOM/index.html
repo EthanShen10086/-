@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<ul id="list">
+			<li class="list-item">douyin</li>
+			<li class="list-item">toutiao</li>
+		</ul>
+		<style></style>
+		<script>
+			function Element({ tagName, props, children }) {
+				if (!(this instanceof Element)) {
+					return new Element({ tagName, props, children });
+				}
+				this.tagName = tagName;
+				this.props = props || {};
+				this.children = children || [];
+			}
+			function domToVirtual(dom) {
+				// 如果是文本节点，直接返回文本内容
+				if (dom.nodeType === 3) {
+					return dom.nodeValue.trim() ? dom.nodeValue : null;
+				}
+				const tagName = dom.tagName.toLowerCase();
+				const props = {};
+				for (let attr of dom.attributes) {
+					props[attr.name] = attr.value;
+				}
+				const children = [...dom.childNodes]
+					.map(domToVirtual)
+					.filter((child) => child !== null);
+				return new Element({ tagName, props, children });
+			}
+			const realDOM = document.getElementById('list');
+			const virtualDOM = domToVirtual(realDOM);
+			console.log(virtualDOM);
+		</script>
+	</body>
+</html>

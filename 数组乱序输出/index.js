@@ -1,8 +1,8 @@
-// 数组乱序输出
-function shuffleArray(array) {
-	const shuffled = [...array];
-	for (let i = shuffled.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
+function shuffleList(list) {
+	const shuffled = [...list];
+	for (let i = list.length - 1; i > 0; i--) {
+		// 从尾部开始保证 0-i区间 random -> [0, i) ，+ 1保证了[0, i]
+		const j = Math.floor(Math.random() * (1 + i));
 		[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
 	}
 	return shuffled;

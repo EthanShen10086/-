@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<style>
+			.border {
+				position: relative;
+				border: none;
+			}
+			.border::after {
+				content: '';
+				position: absolute;
+				left: 16px;
+				right: 16px;
+				bottom: 0;
+				height: 1px;
+				transform: translateY(0.5);
+				background: #000;
+				overflow: hidden;
+			}
+		</style>
+		<script></script>
+	</body>
+</html>

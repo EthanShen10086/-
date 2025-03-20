@@ -14,23 +14,3 @@ function flatObject(obj, prefix = '') {
 	}
 	return result;
 }
-// const obj = {
-// 	a: 1,
-// 	b: {
-// 		c: 2,
-// 		d: {
-// 			e: 3,
-// 		},
-// 	},
-// 	f: [1, 2, 3],
-// 	g: null,
-// };
-/* 输出结果：
-{
-    'a': 1,
-    'b.c': 2,
-    'b.d.e': 3,
-    'f': [1, 2, 3],
-    'g': null
-}
-*/

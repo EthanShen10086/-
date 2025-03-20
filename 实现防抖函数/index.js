@@ -1,5 +1,4 @@
-// 防抖是n秒内会重新计时; 
-function debounce(fn, wait) {
+function debounce(fn, delay) {
 	let timer = null;
 	return function () {
 		if (timer) {
@@ -8,6 +7,6 @@ function debounce(fn, wait) {
 		}
 		timer = setTimeout(() => {
 			fn.apply(this, arguments);
-		}, wait);
+		}, delay);
 	};
 }

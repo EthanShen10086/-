@@ -1,26 +1,26 @@
-// Function to format number with thousand separators
-function formatNumber(num) {
-	let str = String(num);
-	let parts = str.split('.');
-	let integerPart = parts[0];
-	let decimalPart = parts[1];
-	if (str.length <= 3) {
-		return str;
-	} else {
-		let result = '';
-		let count = 0;
-		for (let i = integerPart.length - 1; i >= 0; i--) {
-			if (count === 3) {
-				result = ',' + result;
-				count = 0;
-			}
-			result = integerPart[i] + result;
-			count++;
+function thousandNumber(num) {
+	const str = String(num);
+	let isNegative = false;
+	if (str[0] === '-') {
+		str = str.slice(1, -1);
+		isNegative = true;
+	}
+	const [inter, decimal] = str.split('.');
+	let result = '';
+	let count = 0;
+	for (let i = 0; i < inter.length; i++) {
+		if (count === 3) {
+			result = ',' + result;
+			count = 0;
 		}
-		// Add decimal part if it exists
-		if (decimalPart) {
-			result += '.' + decimalPart;
-		}
+		result = inter[i] + result;
+		count++;
+	}
+	if (decimal) {
+		result = result + '.' + decimal;
+	}
+	if (isNegative) {
+		result = '-' + result;
 	}
 	return result;
 }
